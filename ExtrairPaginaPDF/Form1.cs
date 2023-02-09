@@ -38,8 +38,9 @@ namespace ExtrairPaginaPDF
 
         private void ExtrairPaginaPDF(string path, string dirPDF)
         {
+
             var pagina = 0;
-            string cpf = "";
+            string cpf;
             try
             {
                 using (var pdf = new PdfReader(path))
@@ -52,9 +53,18 @@ namespace ExtrairPaginaPDF
                         {
                             for (pagina = 1; pagina <= doc.GetNumberOfPages(); pagina++)
                             {
+                                var max = pagina;
+
+                                progressBar1.Maximum = max;
+
+                                progressBar1.Value = pagina;
+
                                 ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
 
                                 string conteudo = PdfTextExtractor.GetTextFromPage(doc.GetPage(pagina), strategy);
+
+                                if (pagina == 315)
+                                    break;
 
                                 string novoConteudo = conteudo.Remove(0, 528);
 
@@ -76,6 +86,9 @@ namespace ExtrairPaginaPDF
 
                                 string stringInvertida = new String(arrChar);
 
+                                if (pagina == 315)
+                                    break;
+
                                 string stringInvertidaRemove = stringInvertida.Remove(0, 17);
 
                                 string stringInvertidaRemove2 = stringInvertidaRemove.Remove(12);
@@ -95,7 +108,6 @@ namespace ExtrairPaginaPDF
                                         doc.CopyPagesTo(pagina, pagina, docNovo);
                                     }
                                 }
-
                             }
                         }
                         pagina -= 1;
