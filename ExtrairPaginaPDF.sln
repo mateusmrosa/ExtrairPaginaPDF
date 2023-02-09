@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtrairPaginaPDF", "ExtrairPaginaPDF\ExtrairPaginaPDF.csproj", "{BF66F7BC-5477-416F-B2E8-6BDA9D7F399B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF66F7BC-5477-416F-B2E8-6BDA9D7F399B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF66F7BC-5477-416F-B2E8-6BDA9D7F399B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF66F7BC-5477-416F-B2E8-6BDA9D7F399B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF66F7BC-5477-416F-B2E8-6BDA9D7F399B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCFA21DC-B0EA-4BBD-A5FE-9D374FE5ED33}
+	EndGlobalSection
+EndGlobal
