@@ -32,13 +32,17 @@
             this.btnCarregarPDF = new System.Windows.Forms.Button();
             this.labelNomeArquivo = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnProcessar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCarregarPDF
             // 
-            this.btnCarregarPDF.Location = new System.Drawing.Point(169, 12);
+            this.btnCarregarPDF.Location = new System.Drawing.Point(12, 60);
             this.btnCarregarPDF.Name = "btnCarregarPDF";
-            this.btnCarregarPDF.Size = new System.Drawing.Size(94, 36);
+            this.btnCarregarPDF.Size = new System.Drawing.Size(374, 23);
             this.btnCarregarPDF.TabIndex = 0;
             this.btnCarregarPDF.Text = "Carregar PDF";
             this.btnCarregarPDF.UseVisualStyleBackColor = true;
@@ -56,22 +60,62 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 67);
+            this.progressBar1.Location = new System.Drawing.Point(12, 118);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(408, 23);
+            this.progressBar1.Size = new System.Drawing.Size(579, 23);
             this.progressBar1.TabIndex = 2;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 31);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(374, 23);
+            this.textBox1.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(191, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Insira o diretório no campo abaixo:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 95);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 15);
+            this.label2.TabIndex = 5;
+            // 
+            // btnProcessar
+            // 
+            this.btnProcessar.Location = new System.Drawing.Point(409, 31);
+            this.btnProcessar.Name = "btnProcessar";
+            this.btnProcessar.Size = new System.Drawing.Size(182, 52);
+            this.btnProcessar.TabIndex = 6;
+            this.btnProcessar.Text = "Processar";
+            this.btnProcessar.UseVisualStyleBackColor = true;
+            this.btnProcessar.Click += new System.EventHandler(this.btnProcessar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 103);
+            this.ClientSize = new System.Drawing.Size(603, 153);
+            this.Controls.Add(this.btnProcessar);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.labelNomeArquivo);
             this.Controls.Add(this.btnCarregarPDF);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Extrator de páginas PDF - Ameppre";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -83,5 +127,9 @@
         private Button btnCarregarPDF;
         private Label labelNomeArquivo;
         private ProgressBar progressBar1;
+        private TextBox textBox1;
+        private Label label1;
+        private Label label2;
+        private Button btnProcessar;
     }
 }
