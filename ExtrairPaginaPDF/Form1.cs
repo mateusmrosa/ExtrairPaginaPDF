@@ -86,6 +86,7 @@ namespace ExtrairPaginaPDF
 
                                 string posicao = novoConteudoRemovidoSplit[0]
                                     .Replace("Titular", "")
+                                    .Replace("Conjuge", "")
                                     .Replace("/", "")
                                     .Replace("-", "")
                                     .Replace("R$", "")
@@ -94,12 +95,33 @@ namespace ExtrairPaginaPDF
 
                                 string stringInvertida = util.InverterString(posicao);
 
+                                stringInvertida = stringInvertida.Replace(" ", "");
+
                                 if (pagina == 315)
                                     break;
 
-                                string stringInvertidaRemove = stringInvertida.Remove(0, 17);
+                                string stringInvertidaRemove = "";
 
-                                string stringInvertidaRemove2 = stringInvertidaRemove.Remove(12);
+                                if (stringInvertida.Length == 87)
+                                {
+                                    stringInvertidaRemove = stringInvertida.Remove(0, 12);
+                                }
+                                else if (stringInvertida.Length == 97  ||
+                                         stringInvertida.Length == 79  ||
+                                         stringInvertida.Length == 77  ||
+                                         stringInvertida.Length == 67  ||
+                                         stringInvertida.Length == 91  ||
+                                         stringInvertida.Length == 101 ||
+                                         stringInvertida.Length == 83)
+                                {
+                                    stringInvertidaRemove = stringInvertida.Remove(0, 13);
+                                }
+                                else
+                                {
+                                    stringInvertidaRemove = stringInvertida.Remove(0, 14);
+                                }
+
+                                string stringInvertidaRemove2 = stringInvertidaRemove.Remove(11);
 
                                 string stringOriginal = util.DesinverterString(stringInvertidaRemove2);
 
@@ -131,7 +153,5 @@ namespace ExtrairPaginaPDF
         {
 
         }
-
-
     }
 }

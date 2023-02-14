@@ -6,7 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>logo-ameppre.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="logo-ameppre.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="itext7" Version="7.1.16" />
