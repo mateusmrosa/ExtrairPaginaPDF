@@ -1,12 +1,17 @@
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Kernel.Pdf.Canvas.Parser;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace ExtrairPaginaPDF
 {
     public partial class Form1 : Form
     {
-        public OpenFileDialog openFileDialog = new OpenFileDialog();
+        private const string Uri = "https://api.ameppre.com.br/getassociados";
+        private const string TokenBody = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+        private OpenFileDialog openFileDialog = new OpenFileDialog();
+        private Util util = new();
 
         public Form1()
         {
@@ -106,11 +111,11 @@ namespace ExtrairPaginaPDF
                                 {
                                     stringInvertidaRemove = stringInvertida.Remove(0, 12);
                                 }
-                                else if (stringInvertida.Length == 97  ||
-                                         stringInvertida.Length == 79  ||
-                                         stringInvertida.Length == 77  ||
-                                         stringInvertida.Length == 67  ||
-                                         stringInvertida.Length == 91  ||
+                                else if (stringInvertida.Length == 97 ||
+                                         stringInvertida.Length == 79 ||
+                                         stringInvertida.Length == 77 ||
+                                         stringInvertida.Length == 67 ||
+                                         stringInvertida.Length == 91 ||
                                          stringInvertida.Length == 101 ||
                                          stringInvertida.Length == 83)
                                 {
@@ -149,8 +154,44 @@ namespace ExtrairPaginaPDF
             }
         }
 
+
+        public async Task<string> PostApi(string base64)
+        {
+            using var client = new HttpClient();
+
+            var data = new Dictionary<string, string>
+            {
+                { "tokenBody", TokenBody },
+                { "base64", ""}
+            };
+
+            var res = await client.PostAsync(Uri, new FormUrlEncodedContent(data));
+
+            var content = await res.Content.ReadAsStringAsync();
+
+            return content;
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private async void btnSincronizar_Click(object sender, EventArgs e)
+        {
+            string dirPdf = textBox1.Text;
+
+            var arquivos = util.GetArquivoPdfRecursive(dirPdf);
+
+            foreach (var item in arquivos)
+            {
+                string base64 = util.ConverterPdfParaBase64(item);
+
+                var response = await PostApi(base64);
+
+            }
+
+
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iText.Kernel.Pdf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,22 @@ namespace ExtrairPaginaPDF
         {
             return DateTime.Now.ToString("yyyy");
         }
+
+        public string ConverterPdfParaBase64(string pathsPdf)
+        {
+            byte[] pdfByte = File.ReadAllBytes(pathsPdf);
+
+            string pdfBase64 = Convert.ToBase64String(pdfByte);
+
+            return pdfBase64;
+        }
+
+        public string[] GetArquivoPdfRecursive(string path)
+        {
+            return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+        }
+
+
 
 
     }

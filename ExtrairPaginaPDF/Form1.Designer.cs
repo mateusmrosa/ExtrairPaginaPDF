@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnProcessar = new System.Windows.Forms.Button();
+            this.btnSincronizar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCarregarPDF
@@ -60,7 +61,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 118);
+            this.progressBar1.Location = new System.Drawing.Point(7, 163);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(579, 23);
             this.progressBar1.TabIndex = 2;
@@ -96,15 +97,26 @@
             this.btnProcessar.Name = "btnProcessar";
             this.btnProcessar.Size = new System.Drawing.Size(182, 52);
             this.btnProcessar.TabIndex = 6;
-            this.btnProcessar.Text = "Processar";
+            this.btnProcessar.Text = "Processar Extração";
             this.btnProcessar.UseVisualStyleBackColor = true;
             this.btnProcessar.Click += new System.EventHandler(this.btnProcessar_Click);
+            // 
+            // btnSincronizar
+            // 
+            this.btnSincronizar.Location = new System.Drawing.Point(157, 120);
+            this.btnSincronizar.Name = "btnSincronizar";
+            this.btnSincronizar.Size = new System.Drawing.Size(75, 23);
+            this.btnSincronizar.TabIndex = 7;
+            this.btnSincronizar.Text = "Sincronizar";
+            this.btnSincronizar.UseVisualStyleBackColor = true;
+            this.btnSincronizar.Click += new System.EventHandler(this.btnSincronizar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(603, 153);
+            this.ClientSize = new System.Drawing.Size(598, 198);
+            this.Controls.Add(this.btnSincronizar);
             this.Controls.Add(this.btnProcessar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -131,5 +143,6 @@
         private Label label1;
         private Label label2;
         private Button btnProcessar;
+        private Button btnSincronizar;
     }
 }
