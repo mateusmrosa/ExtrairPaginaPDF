@@ -8,10 +8,11 @@ namespace ExtrairPaginaPDF
 {
     public partial class Form1 : Form
     {
-        private const string Uri = "https://api.ameppre.com.br/getassociados";
+        private const string Uri = "http://localhost/api-ameppre/insertInformativoUnimed";
         private const string TokenBody = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
         private OpenFileDialog openFileDialog = new OpenFileDialog();
         private Util util = new();
+        private DataBase dataBase = new();
 
         public Form1()
         {
@@ -136,6 +137,8 @@ namespace ExtrairPaginaPDF
 
                                 using (var pdfNovo = new PdfWriter(dirPDF + "\\pag-" + pagina + "-" + ano + "-" + cpf + ".pdf"))
                                 {
+                                    dataBase.gravar(cpf);
+
                                     using (var docNovo = new PdfDocument(pdfNovo))
                                     {
                                         doc.CopyPagesTo(pagina, pagina, docNovo);
@@ -154,15 +157,14 @@ namespace ExtrairPaginaPDF
             }
         }
 
-
-        public async Task<string> PostApi(string base64)
+        public async Task<string> PostApi(string base64IrUnimed)
         {
             using var client = new HttpClient();
 
             var data = new Dictionary<string, string>
             {
                 { "tokenBody", TokenBody },
-                { "base64", ""}
+                { "base64IrUnimed", base64IrUnimed}
             };
 
             var res = await client.PostAsync(Uri, new FormUrlEncodedContent(data));
@@ -185,9 +187,11 @@ namespace ExtrairPaginaPDF
 
             foreach (var item in arquivos)
             {
-                string base64 = util.ConverterPdfParaBase64(item);
+                string base64irUnimed = util.ConverterPdfParaBase64(item);
 
-                var response = await PostApi(base64);
+                //chamar a base de dados e dar um get no cpf 
+
+                var response = await PostApi(base64irUnimed); //enviar por parametro o cpf nesse chamda da api
 
             }
 
