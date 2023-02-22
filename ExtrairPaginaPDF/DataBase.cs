@@ -36,7 +36,7 @@ namespace ExtrairPaginaPDF
             try
             {
                 this.conexao.Open();
-                string query = "INSERT INTO tb_cpf_ir_unimed (cpf_ir_cpf) VALUES (" + cpf + ")";
+                string query = "INSERT INTO tb_cpf_ir_unimed (cpf_ir_cpf) VALUES ('" + cpf + "')";
 
                 MySqlCommand cmd = new MySqlCommand(query, this.conexao);
                 cmd.Parameters.AddWithValue("@cpf_ir_cpf", cpf);

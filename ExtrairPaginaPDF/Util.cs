@@ -49,9 +49,5 @@ namespace ExtrairPaginaPDF
         {
             return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
         }
-
-
-
-
     }
 }

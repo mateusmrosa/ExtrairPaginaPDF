@@ -194,9 +194,6 @@ namespace ExtrairPaginaPDF
                 var response = await PostApi(base64irUnimed); //enviar por parametro o cpf nesse chamda da api
 
             }
-
-
-
         }
     }
 }
