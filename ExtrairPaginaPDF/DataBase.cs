@@ -5,7 +5,7 @@ namespace ExtrairPaginaPDF
 {
     class DataBase
     {
-        private string caminho = "server=108.179.192.45;uid=amepp840_usuamep;pwd=YOBhjb*&klf6;database=amepp840_db_ameppre;";
+        private string caminho = "server=108.179.192.45;user=amepp840_usuamep;password=YOBhjb*&klf6;database=amepp840_db_ameppre;";
         private MySqlConnection conexao;
 
         public MySqlConnection Conexao()
@@ -15,6 +15,7 @@ namespace ExtrairPaginaPDF
 
         public DataBase()
         {
+
             try
             {
                 conexao = new MySqlConnection(caminho);
@@ -31,7 +32,7 @@ namespace ExtrairPaginaPDF
             }
         }
 
-        public void gravar(string cpf)
+        public void GravarCpf(string cpf)
         {
             try
             {
@@ -51,67 +52,41 @@ namespace ExtrairPaginaPDF
             }
         }
 
-        public void gravarUsuario(string nome, string sexo)
+        public string ObterCpf(int id)
         {
+            string resultCpf = "";
             try
             {
                 this.conexao.Open();
-                string query = "INSERT INTO usuarios (nome, sexo) VALUES ('" + nome + "', '" + sexo + "')";
+                string query = "SELECT cpf_ir_cpf FROM tb_cpf_ir_unimed WHERE cpf_ir_id = " + id;
 
                 MySqlCommand cmd = new MySqlCommand(query, this.conexao);
-                //cmd.Parameters.AddWithValue("@nome", nome);
-                //cmd.Parameters.AddWithValue("@sexo", sexo);
-                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@cpf_ir_id", id);
 
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    resultCpf = reader.GetString(0);
+                }
+
+                reader.Close();
                 this.conexao.Close();
-                MessageBox.Show("Dados gravados com sucesso...");
+
+                //MessageBox.Show("Dados gravados com sucesso...");
             }
             catch (Exception erro)
             {
                 MessageBox.Show("Erro de gravação: Erro -> " + erro);
             }
+
+            return resultCpf;
         }
 
 
-        public void updateTable(DataGridView grid, string tabela)
-        {
 
-            string query = "SELECT * FROM " + tabela + ";";
-            try
-            {
-                this.conexao.Open();
-                DataTable dados = new DataTable();
 
-                MySqlCommand cmd = new MySqlCommand(query, this.conexao);
-                dados.Load(cmd.ExecuteReader());
 
-                grid.DataSource = dados.DefaultView;
-
-                this.conexao.Close();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Erro ao acessar banco de dados");
-            }
-        }
-
-        public void deleteRegistro(int codigo)
-        {
-
-            string query = "DELETE FROM famosos WHERE codigo =" + codigo;
-            try
-            {
-                this.conexao.Open();
-
-                MySqlCommand cmd = new MySqlCommand(query, this.conexao);
-                cmd.ExecuteNonQuery();
-                this.conexao.Close();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Erro ao deletar registro...");
-            }
-        }
 
     }
 }

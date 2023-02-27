@@ -44,7 +44,7 @@ namespace ExtrairPaginaPDF
             else
             {
                 if (openFileDialog.FileName.Trim() == "")
-                    MessageBox.Show("Erro: carregue um PDF!");
+                    MessageBox.Show("Erro: Carregue um PDF!");
                 else
                     ExtrairPaginaPDF(openFileDialog.FileName, dirPdf);
             }
@@ -55,6 +55,13 @@ namespace ExtrairPaginaPDF
             var max = pagina;
             progressBar1.Maximum = max;
             progressBar1.Value = pagina;
+        }
+
+        private void ProgressBar2(int i)
+        {
+            var max = i;
+            progressBar2.Maximum = max;
+            progressBar2.Value = i;
         }
 
         private void ExtrairPaginaPDF(string path, string dirPDF)
@@ -135,9 +142,9 @@ namespace ExtrairPaginaPDF
 
                                 string ano = util.RetornaAnoAtual();
 
-                                using (var pdfNovo = new PdfWriter(dirPDF + "\\pag-" + pagina + "-" + ano + "-" + cpf + ".pdf"))
+                                using (var pdfNovo = new PdfWriter(dirPDF + "\\IR-" + pagina.ToString("000") + "-" + ano + "-" + cpf + ".pdf"))
                                 {
-                                    dataBase.gravar(cpf);
+                                    dataBase.GravarCpf(cpf);
 
                                     using (var docNovo = new PdfDocument(pdfNovo))
                                     {
@@ -147,7 +154,7 @@ namespace ExtrairPaginaPDF
                             }
                         }
                         pagina -= 1;
-                        MessageBox.Show(pagina + " páginas extraídas com sucesso!");
+                        MessageBox.Show("Sucesso: " + pagina + " páginas extraídas com sucesso!");
                     }
                 }
             }
@@ -155,23 +162,6 @@ namespace ExtrairPaginaPDF
             {
                 MessageBox.Show("Erro: " + ex.Message);
             }
-        }
-
-        public async Task<string> PostApi(string base64IrUnimed)
-        {
-            using var client = new HttpClient();
-
-            var data = new Dictionary<string, string>
-            {
-                { "tokenBody", TokenBody },
-                { "base64IrUnimed", base64IrUnimed}
-            };
-
-            var res = await client.PostAsync(Uri, new FormUrlEncodedContent(data));
-
-            var content = await res.Content.ReadAsStringAsync();
-
-            return content;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -183,17 +173,51 @@ namespace ExtrairPaginaPDF
         {
             string dirPdf = textBox1.Text;
 
+            progressBar1.Value = 0;
+
+            if (dirPdf == "")
+            {
+                MessageBox.Show("Erro: Informe o caminho do diretorio!");
+                return;
+            }
+
             var arquivos = util.GetArquivoPdfRecursive(dirPdf);
+
+            int i = 1;
 
             foreach (var item in arquivos)
             {
+                ProgressBar2(i);
+
                 string base64irUnimed = util.ConverterPdfParaBase64(item);
 
-                //chamar a base de dados e dar um get no cpf 
+                string cpf = dataBase.ObterCpf(i);
 
-                var response = await PostApi(base64irUnimed); //enviar por parametro o cpf nesse chamda da api
+                var response = await PostApi(base64irUnimed, i, cpf); //enviar por parametro o cpf nesse chamda da api
 
+                i++;
             }
+
+            MessageBox.Show("Sucesso: Os IR`s dos associados foram sincronizados com o servidor!");
+        }
+
+        public async Task<string> PostApi(string base64IrUnimed, int id, string cpf)
+        {
+            using var client = new HttpClient();
+
+            var data = new Dictionary<string, string>
+            {
+                { "tokenBody"      , TokenBody            },
+                { "id"             , Convert.ToString(id) },
+                { "cpf"            , cpf                  },
+                { "base64IrUnimed" , base64IrUnimed       }
+            };
+
+            var res = await client.PostAsync(Uri, new FormUrlEncodedContent(data));
+
+            var content = await res.Content.ReadAsStringAsync();
+
+            return content;
         }
     }
 }
