@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="dir_PDF\**" />
+    <EmbeddedResource Remove="dir_PDF\**" />
+    <None Remove="dir_PDF\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="logo-ameppre.ico" />
   </ItemGroup>
 
@@ -17,10 +23,6 @@
     <PackageReference Include="itext7" Version="7.1.16" />
     <PackageReference Include="MySql.Data" Version="8.0.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="dir_PDF\" />
   </ItemGroup>
 
 </Project>
