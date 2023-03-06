@@ -37,6 +37,8 @@
             this.btnProcessar = new System.Windows.Forms.Button();
             this.btnSincronizar = new System.Windows.Forms.Button();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCarregarPDF
@@ -93,7 +95,7 @@
             // 
             // btnSincronizar
             // 
-            this.btnSincronizar.Location = new System.Drawing.Point(5, 120);
+            this.btnSincronizar.Location = new System.Drawing.Point(5, 129);
             this.btnSincronizar.Name = "btnSincronizar";
             this.btnSincronizar.Size = new System.Drawing.Size(586, 45);
             this.btnSincronizar.TabIndex = 7;
@@ -103,16 +105,38 @@
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(5, 173);
+            this.progressBar2.Location = new System.Drawing.Point(5, 194);
             this.progressBar2.Name = "progressBar2";
             this.progressBar2.Size = new System.Drawing.Size(586, 15);
             this.progressBar2.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.Green;
+            this.label3.Location = new System.Drawing.Point(4, 177);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(0, 15);
+            this.label3.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label5.ForeColor = System.Drawing.Color.Green;
+            this.label5.Location = new System.Drawing.Point(402, 113);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 15);
+            this.label5.TabIndex = 10;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(598, 197);
+            this.ClientSize = new System.Drawing.Size(597, 215);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.btnSincronizar);
             this.Controls.Add(this.btnProcessar);
@@ -141,5 +165,7 @@
         private Button btnProcessar;
         private Button btnSincronizar;
         private ProgressBar progressBar2;
+        private Label label3;
+        private Label label5;
     }
 }

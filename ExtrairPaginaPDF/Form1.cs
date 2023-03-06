@@ -55,6 +55,7 @@ namespace ExtrairPaginaPDF
             var max = pagina;
             progressBar1.Maximum = max;
             progressBar1.Value = pagina;
+            label5.Text = "Aguarde o processamento...";
         }
 
         private void ProgressBar2(int i)
@@ -68,6 +69,7 @@ namespace ExtrairPaginaPDF
         {
             int pagina = 0;
             string cpf;
+
             try
             {
                 using (var pdf = new PdfReader(path))
@@ -82,6 +84,7 @@ namespace ExtrairPaginaPDF
 
                             for (pagina = 1; pagina <= doc.GetNumberOfPages(); pagina++)
                             {
+
                                 ProgressBar(pagina);
 
                                 ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
@@ -151,6 +154,7 @@ namespace ExtrairPaginaPDF
                                         doc.CopyPagesTo(pagina, pagina, docNovo);
                                     }
                                 }
+                               
                             }
                         }
                         pagina -= 1;
@@ -196,6 +200,11 @@ namespace ExtrairPaginaPDF
                 var response = await PostApi(base64irUnimed, i, cpf); //enviar por parametro o cpf nesse chamda da api
 
                 i++;
+
+                if (i > 314)
+                    i--;
+
+                label3.Text = "Aguarde...arquivos sincronizados: " + i.ToString();
             }
 
             MessageBox.Show("Sucesso: Os IR`s dos associados foram sincronizados com o servidor!");
