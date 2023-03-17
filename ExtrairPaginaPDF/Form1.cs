@@ -55,7 +55,6 @@ namespace ExtrairPaginaPDF
             var max = pagina;
             progressBar1.Maximum = max;
             progressBar1.Value = pagina;
-            label5.Text = "Aguarde o processamento...";
         }
 
         private void ProgressBar2(int i)
@@ -67,9 +66,16 @@ namespace ExtrairPaginaPDF
 
         private void ExtrairPaginaPDF(string path, string dirPDF)
         {
+            var arquivos = util.GetArquivoPdfRecursive(dirPDF);
+
+            if (arquivos.Length > 0)
+            {
+                MessageBox.Show("O PDF já foi extraído, agora você pode sincronizar com o servidor!");
+                return;
+            }
+
             int pagina = 0;
             string cpf;
-
             try
             {
                 using (var pdf = new PdfReader(path))
@@ -154,7 +160,7 @@ namespace ExtrairPaginaPDF
                                         doc.CopyPagesTo(pagina, pagina, docNovo);
                                     }
                                 }
-                               
+
                             }
                         }
                         pagina -= 1;
@@ -204,7 +210,7 @@ namespace ExtrairPaginaPDF
                 if (i > 314)
                     i--;
 
-                label3.Text = "Aguarde...arquivos sincronizados: " + i.ToString();
+                label3.Text = "Aguarde, sincronizando arquivos: " + i.ToString();
             }
 
             MessageBox.Show("Sucesso: Os IR`s dos associados foram sincronizados com o servidor!");
