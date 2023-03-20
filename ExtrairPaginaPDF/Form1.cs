@@ -8,7 +8,7 @@ namespace ExtrairPaginaPDF
 {
     public partial class Form1 : Form
     {
-        private const string Uri = "http://localhost/api-ameppre/insertInformativoUnimed";
+        private const string Uri = "https://api.ameppre.com.br/insertInformativoUnimed";
         private const string TokenBody = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
         private OpenFileDialog openFileDialog = new OpenFileDialog();
         private Util util = new();
@@ -66,16 +66,20 @@ namespace ExtrairPaginaPDF
 
         private void ExtrairPaginaPDF(string path, string dirPDF)
         {
+            btnProcessar.Enabled = false;
+
             var arquivos = util.GetArquivoPdfRecursive(dirPDF);
 
             if (arquivos.Length > 0)
             {
                 MessageBox.Show("O PDF já foi extraído, agora você pode sincronizar com o servidor!");
+                btnProcessar.Enabled = true;
                 return;
             }
 
             int pagina = 0;
             string cpf;
+
             try
             {
                 using (var pdf = new PdfReader(path))
@@ -92,6 +96,7 @@ namespace ExtrairPaginaPDF
                             {
 
                                 ProgressBar(pagina);
+
 
                                 ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
 
@@ -181,17 +186,25 @@ namespace ExtrairPaginaPDF
 
         private async void btnSincronizar_Click(object sender, EventArgs e)
         {
+            btnSincronizar.Enabled = false;
+
             string dirPdf = textBox1.Text;
 
             progressBar1.Value = 0;
 
             if (dirPdf == "")
             {
-                MessageBox.Show("Erro: Informe o caminho do diretorio!");
+                MessageBox.Show("Erro: informe o caminho do diretorio!");
                 return;
             }
 
             var arquivos = util.GetArquivoPdfRecursive(dirPdf);
+
+            if (arquivos.Length == 0)
+            {
+                MessageBox.Show("Error: primeiro você precisa extrair o PDF");
+                return;
+            }
 
             int i = 1;
 
@@ -210,10 +223,11 @@ namespace ExtrairPaginaPDF
                 if (i > 314)
                     i--;
 
-                label3.Text = "Aguarde, sincronizando arquivos: " + i.ToString();
+                label3.Text = "Aguarde, sincronizando arquivos: " + i.ToString() + "/" + arquivos.Length;
             }
 
             MessageBox.Show("Sucesso: Os IR`s dos associados foram sincronizados com o servidor!");
+
         }
 
         public async Task<string> PostApi(string base64IrUnimed, int id, string cpf)
