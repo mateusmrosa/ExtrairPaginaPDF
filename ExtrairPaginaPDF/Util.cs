@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ExtrairPaginaPDF
@@ -48,6 +49,20 @@ namespace ExtrairPaginaPDF
         public string[] GetArquivoPdfRecursive(string path)
         {
             return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+        }
+
+        public string ProcuraCpf(string stringRetiradaDoPdf)
+        {
+            Regex regex = new Regex(@"\d{11}");
+
+            Match match = regex.Match(stringRetiradaDoPdf);
+
+            string cpf = match.Value;
+
+            if (!regex.IsMatch(cpf))
+                MessageBox.Show("Erro: revise o código");
+
+            return cpf;
         }
     }
 }

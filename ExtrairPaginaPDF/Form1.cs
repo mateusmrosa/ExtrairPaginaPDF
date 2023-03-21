@@ -1,8 +1,9 @@
-using iText.Kernel.Pdf;
+Ôªøusing iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Kernel.Pdf.Canvas.Parser;
 using System.Net;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace ExtrairPaginaPDF
 {
@@ -40,7 +41,7 @@ namespace ExtrairPaginaPDF
         {
             string dirPdf = textBox1.Text;
             if (dirPdf.Trim() == "")
-                MessageBox.Show("Erro: informe o diretÛrio para salvar os PDF`s");
+                MessageBox.Show("Erro: informe o diretÔøΩrio para salvar os PDF`s");
             else
             {
                 if (openFileDialog.FileName.Trim() == "")
@@ -72,7 +73,7 @@ namespace ExtrairPaginaPDF
 
             if (arquivos.Length > 0)
             {
-                MessageBox.Show("O PDF j· foi extraÌdo, agora vocÍ pode sincronizar com o servidor!");
+                MessageBox.Show("O PDF j√° foi extra√≠do, agora voc√™ pode sincronizar com o servidor!");
                 btnProcessar.Enabled = true;
                 return;
             }
@@ -87,78 +88,26 @@ namespace ExtrairPaginaPDF
                     using (var doc = new PdfDocument(pdf))
                     {
                         if (doc.GetNumberOfPages() == 0)
-                            MessageBox.Show("O arquivo " + path + " n„o tem nenhuma p·gina!");
+                            MessageBox.Show("O arquivo " + path + " n√£o tem nenhuma p√°gina!");
                         else
                         {
                             Util util = new();
 
                             for (pagina = 1; pagina <= doc.GetNumberOfPages(); pagina++)
                             {
-
                                 ProgressBar(pagina);
-
 
                                 ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
 
                                 string conteudo = PdfTextExtractor.GetTextFromPage(doc.GetPage(pagina), strategy);
 
-                                if (pagina == 315)
-                                    break;
-
-                                string novoConteudo = conteudo.Remove(0, 528);
-
-                                string novoConteudoRemovido = novoConteudo.Replace("\nNumero Cart„o Nome C.P.F.\nGrau de\nParentesco\nNascimento Valor\n", "");
-
-                                string[] novoConteudoRemovidoSplit = novoConteudoRemovido.Split("\n");
-
-                                string posicao = novoConteudoRemovidoSplit[0]
-                                    .Replace("Titular", "")
-                                    .Replace("Conjuge", "")
-                                    .Replace("/", "")
-                                    .Replace("-", "")
-                                    .Replace("R$", "")
-                                    .Replace(",", "")
-                                    .Replace(".", "");
-
-                                string stringInvertida = util.InverterString(posicao);
-
-                                stringInvertida = stringInvertida.Replace(" ", "");
-
-                                if (pagina == 315)
-                                    break;
-
-                                string stringInvertidaRemove = "";
-
-                                if (stringInvertida.Length == 87)
-                                {
-                                    stringInvertidaRemove = stringInvertida.Remove(0, 12);
-                                }
-                                else if (stringInvertida.Length == 97 ||
-                                         stringInvertida.Length == 79 ||
-                                         stringInvertida.Length == 77 ||
-                                         stringInvertida.Length == 67 ||
-                                         stringInvertida.Length == 91 ||
-                                         stringInvertida.Length == 101 ||
-                                         stringInvertida.Length == 83)
-                                {
-                                    stringInvertidaRemove = stringInvertida.Remove(0, 13);
-                                }
-                                else
-                                {
-                                    stringInvertidaRemove = stringInvertida.Remove(0, 14);
-                                }
-
-                                string stringInvertidaRemove2 = stringInvertidaRemove.Remove(11);
-
-                                string stringOriginal = util.DesinverterString(stringInvertidaRemove2);
-
-                                cpf = stringOriginal;
+                                cpf = util.ProcuraCpf(conteudo);
 
                                 string ano = util.RetornaAnoAtual();
 
                                 using (var pdfNovo = new PdfWriter(dirPDF + "\\IR-" + pagina.ToString("000") + "-" + ano + "-" + cpf + ".pdf"))
                                 {
-                                    dataBase.GravarCpf(cpf);
+                                    //  dataBase.GravarCpf(cpf);
 
                                     using (var docNovo = new PdfDocument(pdfNovo))
                                     {
@@ -169,7 +118,7 @@ namespace ExtrairPaginaPDF
                             }
                         }
                         pagina -= 1;
-                        MessageBox.Show("Sucesso: " + pagina + " p·ginas extraÌdas com sucesso!");
+                        MessageBox.Show("Sucesso: " + pagina + " pÔøΩginas extraÔøΩdas com sucesso!");
                     }
                 }
             }
@@ -202,7 +151,7 @@ namespace ExtrairPaginaPDF
 
             if (arquivos.Length == 0)
             {
-                MessageBox.Show("Error: primeiro vocÍ precisa extrair o PDF");
+                MessageBox.Show("Error: primeiro vocÔøΩ precisa extrair o PDF");
                 return;
             }
 
